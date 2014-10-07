@@ -47,6 +47,21 @@
   (evil-paste-after 1)
   (message nil))
 
+;; From: https://github.com/cofi/dotfiles/blob/master/emacs.d/config/cofi-evil.el
+(defun cofi/copy-previous-line (count)
+  "Copy the line `count' before to the current."
+  (interactive "p")
+  (save-excursion
+    (forward-line (- count))
+    (evil-yank-line (point-at-bol) (point-at-eol) 'line)))
+
+(defun cofi/copy-next-line (count)
+  "Copy the line `count' after to the current."
+  (interactive "p")
+  (save-excursion
+    (forward-line count)
+    (evil-yank-line (point-at-bol) (point-at-eol) 'line)))
+
 (define-key evil-normal-state-map (kbd "[ SPC") 'evil-linewise-blank-lines-above)
 (define-key evil-normal-state-map (kbd "] SPC") 'evil-linewise-blank-lines-below)
 
@@ -55,5 +70,13 @@
 
 (define-key evil-normal-state-map (kbd "[ p") 'evil-linewise-paste-newline-above)
 (define-key evil-normal-state-map (kbd "] p") 'evil-linewise-paste-newline-below)
+
+(define-key evil-normal-state-map (kbd "[ y") 'cofi/copy-previous-line)
+(define-key evil-normal-state-map (kbd "] y") 'cofi/copy-next-line)
+
+;; Make "c" a prefix
+;;(define-key evil-motion-state-map "cu" 'universal-argument)
+
+;;(define-key evil-normal-state-map (kbd "c o n") 'linum-mode)
 
 (provide 'evil-linewise)
